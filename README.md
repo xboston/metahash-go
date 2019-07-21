@@ -2,9 +2,12 @@
 
 An unofficial Golang library for [#MetaHash](https://metahash.org ) blockchain.
 
+
+![metahash-go](https://raw.githubusercontent.com/xboston/metahash-go/master/media/metahash-go.png)
+
 ### Requirements
 
-- GO go1.12+
+- GO go 1.12+
 
 ### Installation
 
@@ -42,7 +45,7 @@ go get -u github.com/xboston/metahash-go
 - [ ] getNonce
 
 ### Usage
-You can find usage examples in the [examples](https://github.com/xboston/php-metahash/tree/master/examples) folder.
+You can find usage examples in the [examples](https://github.com/xboston/metahash-go/tree/master/examples) folder.
 
 ## License
 
