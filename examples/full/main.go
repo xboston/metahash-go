@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/k0kubun/pp"
-	"github.com/xboston/metahash-go/metahash"
+	"github.com/xboston/metahash-go"
 )
 
 var addr = "http://tor.net-main.metahashnetwork.com:5795"
