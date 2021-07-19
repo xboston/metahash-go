@@ -34,10 +34,19 @@ type Transaction struct {
 	KnownBlocks int64           `json:"knownBlocks"`
 }
 
+type HistoryFilter struct {
+	IsInput    bool `json:"isInput,omitempty"`    // isInput - Display only isInput transactions
+	IsOutput   bool `json:"isOutput,omitempty"`   //isOutput - Display only isOutput transactions
+	IsSuccess  bool `json:"isSuccess,omitempty"`  //isSuccess - Display only success transactions
+	IsForging  bool `json:"isForging,omitempty"`  //isForging - Display only forging transactions
+	IsTest     bool `json:"isTest,omitempty"`     //isTest - Display only test transactions
+	IsDelegate bool `json:"isDelegate,omitempty"` //isDelegate - Display only delegation transactions
+}
 type HistoryArgs struct {
-	Address  string `json:"address"`
-	BeginTx  int64  `json:"beginTx,omitempty"`
-	CountTxs int64  `json:"countTxs,omitempty"`
+	Address  string        `json:"address"`
+	BeginTx  int64         `json:"beginTx,omitempty"`
+	CountTxs int64         `json:"countTxs,omitempty"`
+	Filters  HistoryFilter `json:"filters,omitempty"`
 }
 
 type BlockByNumberArgs struct {
