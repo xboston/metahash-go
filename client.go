@@ -230,6 +230,20 @@ func GetLastNodeStatTrust(address string) (*NodeTrust, error) {
 	}
 	return nil, err
 }
+func GetLastNodeCount(counts int) (*LastNodeCount, error) {
+	arg := NodeArgs{CountTests: counts}
+
+	nodeLastNodeCountResp, err := metahashClient.Call("get-all-last-nodes-count", arg)
+	if err == nil {
+		var nodeNodeCount *LastNodeCount
+		err = nodeLastNodeCountResp.GetObject(&nodeNodeCount)
+		if err == nil {
+			return nodeNodeCount, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
 
 // GetTrustData returns trust and list of delete to and delegate from
 func (nt *NodeTrust) GetTrustData() (*NodeTrustData, error) {
@@ -242,6 +256,24 @@ func (nt *NodeTrust) GetTrustData() (*NodeTrustData, error) {
 		return nodeTrustData, nil
 	}
 	return nil, errors.New("cannot parse node trust data")
+}
+
+func GetNodeRaiting(address string, countTests int) (*NodeRaiting, error) {
+	args := &NodeArgs{
+		Address:    address,
+		CountTests: countTests,
+	}
+
+	nodeRaitingResp, err := metahashClient.Call("get-nodes-raiting", args)
+	if err == nil {
+		var nodeRaiting *NodeRaiting
+		err = nodeRaitingResp.GetObject(&nodeRaiting)
+		if err == nil {
+			return nodeRaiting, nil
+		}
+		return nil, err
+	}
+	return nil, err
 }
 
 func GetAddressDelegations(address string, startTx, countTx int64) (*AddressDelegations, error) {
@@ -280,4 +312,19 @@ func GetForgingSumAll() (*ForgingSum, error) {
 	}
 
 	return nil, err
+}
+
+func GetCommonBalance() (int64, error) {
+	balanceRes, err := metahashClient.Call("get-common-balance", nil)
+
+	if err == nil {
+		var balance *CommonBalance
+		err = balanceRes.GetObject(&balance)
+		if err == nil {
+			return balance.Balance, nil
+		}
+		return 0, err
+	}
+
+	return 0, err
 }

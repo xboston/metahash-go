@@ -176,9 +176,10 @@ type AbstractMethod struct {
 }
 
 type NodeArgs struct {
-	Address  string `json:"address"`
-	BeginTx  int64  `json:"beginTx,omitempty"`
-	CountTxs int64  `json:"countTxs,omitempty"`
+	Address    string `json:"address"`
+	BeginTx    int64  `json:"beginTx,omitempty"`
+	CountTxs   int64  `json:"countTxs,omitempty"`
+	CountTests int    `json:"count_tests,omitempty"`
 }
 
 type NodeTest struct {
@@ -247,6 +248,24 @@ type NodeTrustData struct {
 	} `json:"delegated_from"`
 }
 
+type LastNodeCount struct {
+	Nodes []struct {
+		Node  string `json:"node"`
+		IP    string `json:"ip"`
+		Type  string `json:"type"`
+		Count int    `json:"count"`
+	} `json:"nodes"`
+	Day          int `json:"day"`
+	Lastblockday int `json:"lastBlockDay"`
+}
+
+type NodeRaiting struct {
+	Address      string `json:"address"`
+	Raiting      int    `json:"raiting"`
+	Day          int    `json:"day"`
+	Lastblockday int    `json:"lastBlockDay"`
+}
+
 type AddressDelegations struct {
 	Address string `json:"address"`
 	States  []struct {
@@ -262,4 +281,15 @@ type ForgingSum struct {
 		Type  int   `json:"type"`
 		Value int64 `json:"value"`
 	} `json:"sums"`
+}
+
+type CommonBalance struct {
+	Balance int64 `json:"balance"`
+}
+
+type Status struct {
+	ID      int    `json:"id"`
+	Result  string `json:"result"`
+	Version string `json:"version"`
+	GitHash string `json:"git_hash"`
 }
