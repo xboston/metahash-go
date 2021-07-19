@@ -25,7 +25,7 @@ go get -u github.com/xboston/metahash-go
 ### Methods
 
 - [x] fetch-balance
-- [ ] fetch-balances
+- [x] fetch-balances
 - [x] fetch-history
 - [x] get-tx
 - [x] get-block-by-hash
@@ -35,6 +35,10 @@ go get -u github.com/xboston/metahash-go
 - [x] get-dump-block-by-number
 - [x] get-dump-block-by-hash
 - [x] get-count-blocks
+- [x] get-last-node-stat-result
+- [x] get-last-node-stat-trust
+- [x] get-address-delegations
+- [x] get-forging-sum-all
 - [ ] status
 - [ ] mhc_send
 - [ ] getinfo

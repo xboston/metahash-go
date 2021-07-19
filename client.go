@@ -1,5 +1,11 @@
 package metahash
 
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+)
+
 const torUrl = "http://tor.net-main.metahashnetwork.com:5795"
 
 var metahashClient RPCClient
@@ -16,6 +22,20 @@ func FetchBalance(address string) (*Balance, error) {
 		err = responseBalance.GetObject(&resultBalance)
 		if err == nil {
 			return resultBalance, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
+// FetchBalances gets the balance information of a given addresses
+func FetchBalances(addresses ...string) ([]*Balance, error) {
+	responseBalance, err := metahashClient.Call("fetch-balances", &BalancesArgs{Addresses: addresses})
+	if err == nil {
+		var resultBalances []*Balance
+		err = responseBalance.GetObject(&resultBalances)
+		if err == nil {
+			return resultBalances, nil
 		}
 		return nil, err
 	}
@@ -165,4 +185,99 @@ func GetTotalBlocks() (int64, error) {
 		return 0, err
 	}
 	return 0, err
+}
+
+func GetNodeStats(address string) (*NodeStats, error) {
+	args := &NodeArgs{
+		Address: address,
+	}
+	responsNodeStats, err := metahashClient.Call("get-last-node-stat-result", args)
+	if err == nil {
+		var nodeStats *NodeStats
+		err = responsNodeStats.GetObject(&nodeStats)
+		if err == nil {
+			return nodeStats, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
+func (ns *NodeStats) GetTest() (*NodeStatsState, error) {
+	var nodeTest *NodeStatsState
+
+	str := fmt.Sprint(ns.State)
+	err := json.Unmarshal([]byte(str), &nodeTest)
+	if err == nil {
+		return nodeTest, nil
+	}
+	return nil, errors.New("cannot parse state information")
+}
+
+func GetLastNodeStatTrust(address string) (*NodeTrust, error) {
+	args := &NodeArgs{
+		Address: address,
+	}
+
+	nodeTrustResp, err := metahashClient.Call("get-last-node-stat-trust", args)
+	if err == nil {
+		var nodeTrust *NodeTrust
+		err = nodeTrustResp.GetObject(&nodeTrust)
+		if err == nil {
+			return nodeTrust, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
+// GetTrustData returns trust and list of delete to and delegate from
+func (nt *NodeTrust) GetTrustData() (*NodeTrustData, error) {
+	var nodeTrustData *NodeTrustData
+
+	str := fmt.Sprint(nt.Data)
+	fmt.Print("node trust data: ", str)
+	err := json.Unmarshal([]byte(str), &nodeTrustData)
+	if err == nil {
+		return nodeTrustData, nil
+	}
+	return nil, errors.New("cannot parse node trust data")
+}
+
+func GetAddressDelegations(address string, startTx, countTx int64) (*AddressDelegations, error) {
+	args := &NodeArgs{
+		Address:  address,
+		BeginTx:  startTx,
+		CountTxs: countTx,
+	}
+	responsNodeStats, err := metahashClient.Call("get-address-delegations", args)
+	if err == nil {
+		var nodeStats *AddressDelegations
+		err = responsNodeStats.GetObject(&nodeStats)
+		if err == nil {
+			return nodeStats, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
+// GetForgingSumAll returns sum all types of forging
+//100; // forging transaction
+//101; // wallet reward forging transaction
+//102; // node reward forging transaction
+//103; // coin reward forging transaction
+//104; // random reward forging transaction
+func GetForgingSumAll() (*ForgingSum, error) {
+	responseLastTxs, err := metahashClient.Call("get-forging-sum-all", nil)
+	if err == nil {
+		var forgingSum *ForgingSum
+		err = responseLastTxs.GetObject(&forgingSum)
+		if err == nil {
+			return forgingSum, nil
+		}
+		return nil, err
+	}
+
+	return nil, err
 }
