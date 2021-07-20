@@ -291,6 +291,16 @@ type CommonBalance struct {
 	Balance int64 `json:"balance"`
 }
 
+type TotalSupply struct {
+	CirculatingSupply    string `json:"circulating_supply"`     //Number of coins in circulation
+	CirculatingSupplyCmc string `json:"circulating_supply_cmc"` //Number of coins in circulation (by CoinMarketCap)
+	TotalSupply          string `json:"total_supply"`           //Number of all coins emitted
+	TotalSupplyDecimals  string `json:"total_supply_decimals"`  //Number of all coins emitted in micro units
+	MaxSupply            string `json:"max_supply"`             //Maximum possible number of coins
+	Decimals             int    `json:"decimals"`               //Number of decimal places
+	Name                 string `json:"name"`                   //Name of the currency
+}
+
 type Status struct {
 	ID      int    `json:"id"`
 	Result  string `json:"result"`

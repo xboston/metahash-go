@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 const torUrl = "http://tor.net-main.metahashnetwork.com:5795"
+const totalSupplyUrl = "https://app.metahash.io/api/stat/?method=supply"
 
 var metahashClient RPCClient
 
@@ -389,4 +392,31 @@ func GetCommonBalance() (int64, error) {
 	}
 
 	return 0, err
+}
+
+func MetahashSupply() (*TotalSupply, error) {
+
+	req, _ := http.NewRequest("GET", totalSupplyUrl, nil)
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+
+		return nil, err
+
+	}
+
+	supply := &TotalSupply{}
+	err = json.Unmarshal(body, supply)
+	if err == nil {
+		return supply, nil
+	}
+	return nil, err
+
 }

@@ -22,6 +22,12 @@ go get -u github.com/xboston/metahash-go
 - [Knowledge base](https://developers.metahash.org)
 - [Testpage portal](http://testpage.metahash.org/)
 
+## Refence links:
+- [Metahash API links](https://talk.metahash.org/t/metahash-api/36)
+- [Metahash Node API](https://github.com/metahashorg/metahash-fullnode-client/wiki/Usage)
+- [MetaHash Developers Portal](https://metahash.readme.io/docs/as-a-developer)
+- [MetaHash Wiki](https://github.com/metahashorg/MetaHash/wiki)
+
 ### Methods
 
 - [x] fetch-balance
@@ -41,6 +47,7 @@ go get -u github.com/xboston/metahash-go
 - [x] get-nodes-raiting
 - [x] get-address-delegations
 - [x] get-forging-sum-all
+- [x] get-forging-sum
 - [x] get-common-balance
 - [ ] status
 - [ ] mhc_send
@@ -50,6 +57,7 @@ go get -u github.com/xboston/metahash-go
 ### Extra Methods
 - [ ] [generateKey](https://developers.metahash.org/hc/en-us/articles/360002712193-Getting-started-with-Metahash-network)
 - [ ] getNonce
+- [x] [metahashSupply](https://github.com/metahashorg/MetaHash/wiki/MetaHash-Supply)
 
 ### Usage
 You can find usage examples in the [examples](https://github.com/xboston/metahash-go/tree/master/examples) folder.

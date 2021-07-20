@@ -177,4 +177,10 @@ func main() {
 		pp.Printf("error getting balance: %v\n", err)
 	}*/
 
+	supply, err := metahash.MetahashSupply()
+	if err == nil {
+		pp.Println("metahash supply", supply)
+	} else {
+		pp.Printf("error getting supply: %v\n", err)
+	}
 }
