@@ -28,7 +28,7 @@ func FetchBalance(address string) (*Balance, error) {
 	return nil, err
 }
 
-// FetchBalances gets the balance information of a given addresses
+// FetchBalances gets the balance information of list of addresses
 func FetchBalances(addresses ...string) ([]*Balance, error) {
 	responseBalance, err := metahashClient.Call("fetch-balances", &BalancesArgs{Addresses: addresses})
 	if err == nil {
@@ -57,7 +57,7 @@ func FetchHistory(address string) ([]*TransactionInfo, error) {
 }
 
 //FetchHistoryRange returns list of transaction history from a given index
-func FetchHistoryRange(address string, startIndex, numTrx int64) ([]*TransactionInfo, error) {
+func FetchHistoryFiter(address string, startIndex, numTrx int64) ([]*TransactionInfo, error) {
 	responseHistory, err := metahashClient.Call("fetch-history", &HistoryArgs{Address: address, BeginTx: startIndex, CountTxs: numTrx})
 	if err == nil {
 		var resultHistory []*TransactionInfo
@@ -187,6 +187,54 @@ func GetTotalBlocks() (int64, error) {
 	return 0, err
 }
 
+// GetBlockByNumber returns block info. Pass nil for startTx, numTx
+// blockType should between 0 and 2: 0 = 0 or there isn’t - only block name, 1 = only hashes, 2 = full block dump,
+//issue: block type 1 is not working at the moment
+
+func GetBlockByHash(blockHash string, startIndex, numTx, blockType int) (*Block, error) {
+	if blockType > 2 || blockType == 1 { //skip block type 1 as it not working properly
+		blockType = 0
+	}
+	blkArg := &BlockByHashArgs{Hash: blockHash, BeginTx: int64(startIndex), CountTxs: int64(numTx), Type: int8(blockType)}
+	responseBlockByNumber, err := metahashClient.Call("get-block-by-hash", blkArg)
+	if err == nil {
+		var resultBlockByNumber *Block
+		err = responseBlockByNumber.GetObject(&resultBlockByNumber)
+		if err == nil {
+			return resultBlockByNumber, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+func GetDumpBlockByHash(blockHash string, isHex bool) (*DumpBlock, error) {
+	arg := &DumpBlockByHashArgs{Hash: blockHash, IsHex: isHex}
+	responseDumpBlockByHash, err := metahashClient.Call("get-dump-block-by-hash", arg)
+	if err == nil {
+		var dumpBlock *DumpBlock
+		err = responseDumpBlockByHash.GetObject(&dumpBlock)
+		if err == nil {
+			return dumpBlock, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
+func GetDumpBlockByNumber(blockNumber int64, isHex bool) (*DumpBlock, error) {
+	blockArg := &DumpBlockByNumberArgs{Number: blockNumber, IsHex: isHex}
+	responseDumpBlockByNumber, err := metahashClient.Call("get-dump-block-by-number", blockArg)
+	if err == nil {
+		var dumbBlock *DumpBlock
+		err = responseDumpBlockByNumber.GetObject(&dumbBlock)
+		if err == nil {
+			return dumbBlock, nil
+		}
+		return nil, err
+	}
+	return nil, err
+}
+
 func GetNodeStats(address string) (*NodeStats, error) {
 	args := &NodeArgs{
 		Address: address,
@@ -311,6 +359,20 @@ func GetForgingSumAll() (*ForgingSum, error) {
 		return nil, err
 	}
 
+	return nil, err
+}
+
+func GetForgingSum(blockIndent int) (*ForgingSum, error) {
+	arg := &ForginSumArgs{BlockIndent: blockIndent}
+	responseLastTxs, err := metahashClient.Call("get-forging-sum", arg)
+	if err == nil {
+		var forgingSum *ForgingSum
+		err = responseLastTxs.GetObject(&forgingSum)
+		if err == nil {
+			return forgingSum, nil
+		}
+		return nil, err
+	}
 	return nil, err
 }
 

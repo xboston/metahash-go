@@ -9,14 +9,18 @@ import (
 const address = "0x0062b734726a66f54e9ac72f63af9fd18bd5ca5583061e2c37"         //serengeti node
 const address2 = "0x005b891007c2000fee08e085beb91494f1d3753eb8eee354f0"        //serengeti node
 const trx = "361d5e113648366aa46010fa02ff1f66dcf8045abe4e30547ffaba0506edbdb2" //sample transaction
+const blockHash = "49a840968be1a3c0449a6d7946fd021ce2746006ff5b855fdc0623669833f5e7"
+
 func main() {
+
+	//to test the api function, you can uncoment each function
 	//fetch balance
-	/*balance, err := metahash.FetchBalance(address)
+	balance, err := metahash.FetchBalance(address)
 	if err == nil {
 		pp.Println("fetch-balance", balance)
 	} else {
 		pp.Println("error fetching balance")
-	}*/
+	}
 
 	//fetch balances
 	/*balances, err := metahash.FetchBalances(address, address2)
@@ -79,6 +83,31 @@ func main() {
 		pp.Println("error getting blocks")
 	}*/
 
+	/*
+		//get block by hash
+		block, err := metahash.GetBlockByHash(blockHash, 0, 100, 1)
+		if err == nil {
+			pp.Println("block by hash", block)
+		} else {
+			pp.Println("error getting block by hash")
+		}*/
+
+	/*
+		// dumpblock by hash
+		block, err := metahash.GetDumpBlockByHash(blockHash, true)
+		if err == nil {
+			pp.Println("dump blokc by hash", block)
+		} else {
+			pp.Println("error getting dump block by hash")
+		}*/
+
+	/*block, err := metahash.GetDumpBlockByNumber(500, true)
+	if err == nil {
+		pp.Println("dump blokc by number", block)
+	} else {
+		pp.Println("error getting dump block by number")
+	}*/
+
 	/*stats, err := metahash.GetNodeStats(address)
 	if err == nil {
 		pp.Println("node stats", stats)
@@ -114,12 +143,12 @@ func main() {
 		pp.Printf("error getting last node count: %v\n", err)
 	}*/
 
-	raiting, err := metahash.GetNodeRaiting(address, 100)
+	/*raiting, err := metahash.GetNodeRaiting(address, 100)
 	if err == nil {
 		pp.Println("raiting", raiting)
 	} else {
 		pp.Printf("error getting raiting: %v\n", err)
-	}
+	}*/
 
 	/*addDelegations, err := metahash.GetAddressDelegations(address, 0, 10)
 	if err == nil {
@@ -128,6 +157,13 @@ func main() {
 		pp.Printf("error getting address delegations: %v\n", err)
 	}*/
 	/*forgingSum, err := metahash.GetForgingSumAll()
+	if err == nil {
+		pp.Println("forging sum", forgingSum)
+	} else {
+		pp.Printf("error getting forging sum: %v\n", err)
+	}*/
+
+	/*forgingSum, err := metahash.GetForgingSum(3)
 	if err == nil {
 		pp.Println("forging sum", forgingSum)
 	} else {

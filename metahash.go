@@ -275,6 +275,10 @@ type AddressDelegations struct {
 	} `json:"states"`
 }
 
+type ForginSumArgs struct {
+	BlockIndent int `json:"block_indent"`
+}
+
 type ForgingSum struct {
 	Blocknumber int `json:"blockNumber"`
 	Sums        []struct {
