@@ -3,6 +3,9 @@ package metahash
 type BalanceArgs struct {
 	Address string `json:"address"`
 }
+type BalancesArgs struct {
+	Addresses []string `json:"addresses"`
+}
 
 type Balance struct {
 	Address           string `json:"address"`
@@ -172,6 +175,13 @@ type AbstractMethod struct {
 	Params  interface{} `json:"params,omitempty"`
 }
 
+type NodeArgs struct {
+	Address    string `json:"address"`
+	BeginTx    int64  `json:"beginTx,omitempty"`
+	CountTxs   int64  `json:"countTxs,omitempty"`
+	CountTests int    `json:"count_tests,omitempty"`
+}
+
 type NodeTest struct {
 	TimeStamp int64  `json:"timestamp"`
 	Method    string `json:"method"`
@@ -185,4 +195,115 @@ type NodeTest struct {
 		Ver      string `json:"ver"`
 		Success  string `json:"success"`
 	} `json:"params"`
+}
+
+type NodeStats struct {
+	Address            string `json:"address"`
+	Type               string `json:"type"`
+	AvgRps             string `json:"avgRps"`
+	IsLatency          bool   `json:"isLatency"`
+	IP                 string `json:"ip"`
+	Geo                string `json:"geo"`
+	State              string `json:"state"`
+	Timestamp          int    `json:"timestamp"`
+	Success            bool   `json:"success"`
+	LastBlockTimestamp int    `json:"lastBlockTimestamp"`
+}
+
+type NodeStatsState struct {
+	ID      string `json:"id"`
+	Jsonrpc string `json:"jsonrpc"`
+	Method  string `json:"method"`
+	Params  struct {
+		Type              string `json:"type"`
+		Ver               string `json:"ver"`
+		Address           string `json:"address"`
+		Host              string `json:"host"`
+		Blockheightcheck  string `json:"blockHeightCheck"`
+		Requestsperminute string `json:"requestsPerMinute"`
+		Latency           string `json:"latency"`
+		Geo               string `json:"geo"`
+		Success           string `json:"success"`
+	} `json:"params"`
+}
+
+type NodeTrust struct {
+	Address            string `json:"address"`
+	Trust              int64  `json:"trust"`
+	Data               string `json:"data"`
+	Timestamp          int64  `json:"timestamp"`
+	Lastblocktimestamp int64  `json:"lastBlockTimestamp"`
+}
+
+type NodeTrustData struct {
+	State      int `json:"state"`
+	Trust      int `json:"trust"`
+	DelegateTo []struct {
+		A string `json:"a"`
+		V int64  `json:"v"`
+	} `json:"delegate_to"`
+	DelegatedFrom []struct {
+		A string `json:"a"`
+		V int64  `json:"v"`
+	} `json:"delegated_from"`
+}
+
+type LastNodeCount struct {
+	Nodes []struct {
+		Node  string `json:"node"`
+		IP    string `json:"ip"`
+		Type  string `json:"type"`
+		Count int    `json:"count"`
+	} `json:"nodes"`
+	Day          int `json:"day"`
+	Lastblockday int `json:"lastBlockDay"`
+}
+
+type NodeRaiting struct {
+	Address      string `json:"address"`
+	Raiting      int    `json:"raiting"`
+	Day          int    `json:"day"`
+	Lastblockday int    `json:"lastBlockDay"`
+}
+
+type AddressDelegations struct {
+	Address string `json:"address"`
+	States  []struct {
+		To    string `json:"to"`
+		Value int64  `json:"value"`
+		Tx    string `json:"tx"`
+	} `json:"states"`
+}
+
+type ForginSumArgs struct {
+	BlockIndent int `json:"block_indent"`
+}
+
+type ForgingSum struct {
+	Blocknumber int `json:"blockNumber"`
+	Sums        []struct {
+		Type  int   `json:"type"`
+		Value int64 `json:"value"`
+	} `json:"sums"`
+}
+
+type CommonBalance struct {
+	Balance int64 `json:"balance"`
+}
+
+type TotalSupply struct {
+	CirculatingSupply    string `json:"circulating_supply"`     //Number of coins in circulation
+	CirculatingSupplyCmc string `json:"circulating_supply_cmc"` //Number of coins in circulation (by CoinMarketCap)
+	TotalSupply          string `json:"total_supply"`           //Number of all coins emitted
+	TotalSupplyDecimals  string `json:"total_supply_decimals"`  //Number of all coins emitted in micro units
+	MaxSupply            string `json:"max_supply"`             //Maximum possible number of coins
+	Decimals             int    `json:"decimals"`               //Number of decimal places
+	Name                 string `json:"name"`                   //Name of the currency
+}
+
+type Status struct {
+	ID      int    `json:"id"`
+	Result  string `json:"result"`
+	Version string `json:"version"`
+	GitHash string `json:"git_hash"`
 }
